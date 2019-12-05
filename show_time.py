@@ -2,6 +2,9 @@ from datetime import datetime
 from datetime import timedelta
 from time import sleep
 
+# setup tty serial device with
+# stty -F /dev/ttyUSB0 9600
+
 while True:
     dt = datetime.utcnow()
     print(dt)
