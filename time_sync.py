@@ -3,9 +3,6 @@ from datetime import timedelta
 from time import sleep
 import sys
 
-# setup tty serial device with
-# stty -F /dev/ttyUSB0 9600
-
 def sync_loop(device):
     while True:
         # determine now
