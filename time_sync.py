@@ -35,7 +35,7 @@ def sync_loop(device):
         sleep(1.0 - s)
         with open(device, 'wb') as f:
             f.write(payload)
-        print("send: ", msg, flush=True)
+        print("send: ", msg, " - ", ms, "ms off", flush=True)
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
