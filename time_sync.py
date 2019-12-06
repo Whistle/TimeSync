@@ -18,11 +18,11 @@ def sync_loop(device):
         next_second = now + delta
 
         # setup payload
-        msg = "{:04d}{:02d}{:02d}{:02d}{:02d}{:02d}".format(next_second.year, next_second.month, next_second.day, next_second.hour, next_second.minute, next_second.second)
+        body = "{:04d}{:02d}{:02d}{:02d}{:02d}{:02d}".format(next_second.year, next_second.month, next_second.day, next_second.hour, next_second.minute, next_second.second)
         payload = bytearray()
         # Add header
         payload.append(0x55)
-        payload.extend(map(ord, msg))
+        payload.extend(map(ord, body))
         # build checksum
         checksum = 0
         for b in payload:
@@ -36,7 +36,7 @@ def sync_loop(device):
         try:
             with open(device, 'wb') as f:
                 f.write(payload)
-            print("send: ", msg, " - ", ms, "ms off", flush=True)
+            print("send: ", body, " - ", ms, "ms off", flush=True)
         except:
             print("Unable to write to ", device, flush=True)
 
