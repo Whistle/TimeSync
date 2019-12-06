@@ -31,7 +31,7 @@ def sync_loop(device):
         # mark message end
         payload.append(0xAA)
 
-        # wait until next second start and send future time
+        # wait until next second starts and send future time
         sleep(1.0 - s)
         with open(device, 'wb') as f:
             f.write(payload)
