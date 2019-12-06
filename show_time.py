@@ -6,14 +6,17 @@ from time import sleep
 # stty -F /dev/ttyUSB0 9600
 
 while True:
-    dt = datetime.utcnow()
-    delta = timedelta(seconds=1)
-    ms = dt.microsecond/1000.0
+    # determine now
+    now = datetime.utcnow()
+    ms = now.microsecond/1000.0
     s = ms/1000.0
-    sleep(1.0 - s)
+
+    # determine the future (now + 1 second)
+    delta = timedelta(seconds=1)
+    next_second = now + delta
 
     # setup payload
-    msg = "{:04d}{:02d}{:02d}{:02d}{:02d}{:02d}".format(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
+    msg = "{:04d}{:02d}{:02d}{:02d}{:02d}{:02d}".format(next_second.year, next_second.month, next_second.day, next_second.hour, next_second.minute, next_second.second)
     payload = bytearray()
     # Add header
     payload.append(0x55)
@@ -25,6 +28,9 @@ while True:
     payload.append(checksum)
     # mark message end
     payload.append(0xAA)
+
+    # wait until next second start and send future time
+    sleep(1.0 - s)
     with open('serial_dev', 'wb') as f:
         f.write(payload)
-    break
+    print("send: ", msg, flush=True)
