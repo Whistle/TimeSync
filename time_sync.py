@@ -33,9 +33,12 @@ def sync_loop(device):
 
         # wait until next second starts and send future time
         sleep(1.0 - s)
-        with open(device, 'wb') as f:
-            f.write(payload)
-        print("send: ", msg, " - ", ms, "ms off", flush=True)
+        try:
+            with open(device, 'wb') as f:
+                f.write(payload)
+            print("send: ", msg, " - ", ms, "ms off", flush=True)
+        except:
+            print("Unable to write to ", device, flush=True)
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
