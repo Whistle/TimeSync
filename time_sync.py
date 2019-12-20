@@ -11,16 +11,17 @@ def sync_loop(device):
         s = ms/1000.0
 
         # determine the future (now + 1 second)
-        delta = timedelta(seconds=1)
-        next_second = now + delta
+        one_second = timedelta(seconds=1)
+        one_second_later = now + one_second
 
         # setup payload
-        body = "{:04d}{:02d}{:02d}{:02d}{:02d}{:02d}".format(next_second.year, next_second.month, next_second.day, next_second.hour, next_second.minute, next_second.second)
         payload = bytearray()
-        # Add header
+        # add header
         payload.append(0x55)
+        # add body
+        body = "{:04d}{:02d}{:02d}{:02d}{:02d}{:02d}".format(one_second_later.year, one_second_later.month, one_second_later.day, one_second_later.hour, one_second_later.minute, one_second_later.second)
         payload.extend(map(ord, body))
-        # build checksum
+        # add checksum
         checksum = 0
         for b in payload:
             checksum = checksum ^ b
